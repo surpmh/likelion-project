@@ -1,6 +1,5 @@
 package com.likelion.likelionproject.dto;
 
-import com.likelion.likelionproject.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
