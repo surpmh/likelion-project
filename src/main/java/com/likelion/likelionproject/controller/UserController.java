@@ -22,4 +22,10 @@ public class UserController {
         UserDto userDto = userService.join(userJoinRequest);
         return Response.success(new UserJoinResponse(userDto.getUserName(), userDto.getPassword()));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserLoginRequest userLoginRequest) {
+        String token = userService.login(userLoginRequest);
+        return ResponseEntity.ok().body(token);
+    }
 }
