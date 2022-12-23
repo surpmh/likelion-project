@@ -47,7 +47,7 @@ public class UserService {
 
     public String login(UserLoginRequest request) {
         User selectedUser = userRepository.findByUserName(request.getUserName())
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_USER_NAME, String.format("%s is not found.", request.getUserName())));
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s is not found.", request.getUserName())));
 
         if (!encoder.matches(request.getPassword(), selectedUser.getPassword())) {
             throw new AppException(ErrorCode.INVALID_PASSWORD, "Invalid password");
