@@ -17,11 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(UserController.class)
 class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -44,13 +45,15 @@ class UserControllerTest {
 
         mockMvc.perform(post("/api/v1/users/join")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(userJoinRequest)))
+                        .content(objectMapper.writeValueAsBytes(userJoinRequest))
+                        .with(csrf())
+                )
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("회원가입 실패")
+    @DisplayName("회원가입 실패 - userName 중복")
     void join_fail() throws Exception {
         UserJoinRequest userJoinRequest = UserJoinRequest.builder()
                 .userName("user")
@@ -61,10 +64,10 @@ class UserControllerTest {
 
         mockMvc.perform(post("/api/v1/users/join")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(userJoinRequest)))
+                        .content(objectMapper.writeValueAsBytes(userJoinRequest))
+                        .with(csrf())
+                )
                 .andDo(print())
                 .andExpect(status().isConflict());
     }
-
-    
 }
