@@ -23,7 +23,7 @@ public class UserService {
 
     @Value("${jwt.token.secret}")
     private String key;
-    private Long expireTimeMx = 3600000L;;
+    private Long expireTimeMx = 3600000L;
 
     public UserDto join(UserJoinRequest request) {
         userRepository.findByUserName(request.getUserName())
@@ -46,9 +46,11 @@ public class UserService {
     }
 
     public String login(UserLoginRequest request) {
+        // userName 없음
         User selectedUser = userRepository.findByUserName(request.getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s is not found.", request.getUserName())));
 
+        // password 틀림
         if (!encoder.matches(request.getPassword(), selectedUser.getPassword())) {
             throw new AppException(ErrorCode.INVALID_PASSWORD, "Invalid password");
         }
