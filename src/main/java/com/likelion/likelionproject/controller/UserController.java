@@ -16,13 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
+    // 회원가입
     @PostMapping("/join")
     public Response<UserJoinResponse> join(@RequestBody UserJoinRequest userJoinRequest) {
         UserDto userDto = userService.join(userJoinRequest);
         return Response.success(new UserJoinResponse(userDto.getUserName(), userDto.getPassword()));
     }
 
+    // 로그인
     @PostMapping("/login")
+
     public Response<UserTokenResponse> login(@RequestBody UserLoginRequest userLoginRequest) {
         String token = userService.login(userLoginRequest);
         return Response.success(new UserTokenResponse(token));
