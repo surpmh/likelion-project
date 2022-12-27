@@ -7,6 +7,8 @@ import com.likelion.likelionproject.dto.UserLoginRequest;
 import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.enums.ErrorCode;
 import com.likelion.likelionproject.service.UserService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +38,14 @@ class UserControllerTest {
     @MockBean
     UserService userService;
 
+    UserJoinRequest userJoinRequest = UserJoinRequest.builder()
+            .userName("user")
+            .password("1234")
+            .build();
+
     @Test
     @DisplayName("회원가입 성공")
     void join_success() throws Exception {
-        UserJoinRequest userJoinRequest = UserJoinRequest.builder()
-                .userName("user")
-                .password("1234")
-                .build();
-
         when(userService.join(any())).thenReturn(mock(UserDto.class));
 
         mockMvc.perform(post("/api/v1/users/join")
@@ -58,11 +60,6 @@ class UserControllerTest {
     @Test
     @DisplayName("회원가입 실패 - userName 중복")
     void join_fail() throws Exception {
-        UserJoinRequest userJoinRequest = UserJoinRequest.builder()
-                .userName("user")
-                .password("1234")
-                .build();
-
         when(userService.join(any())).thenThrow(new AppException(ErrorCode.DUPLICATED_USER_NAME, "Duplicate UserName."));
 
         mockMvc.perform(post("/api/v1/users/join")
@@ -74,14 +71,14 @@ class UserControllerTest {
                 .andExpect(status().isConflict());
     }
 
+    UserLoginRequest userLoginRequest = UserLoginRequest.builder()
+            .userName("user")
+            .password("1234")
+            .build();
+
     @Test
     @DisplayName("로그인 성공")
     void login_success() throws Exception {
-        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-                .userName("user")
-                .password("1234")
-                .build();
-
         when(userService.login(any())).thenReturn("token");
 
         mockMvc.perform(post("/api/v1/users/login")
@@ -96,11 +93,6 @@ class UserControllerTest {
     @Test
     @DisplayName("로그인 실패 - userName 없음")
     void login_username_fail() throws Exception {
-        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-                .userName("user")
-                .password("1234")
-                .build();
-
         when(userService.login(any()))
                 .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND, "UserName not found."));
 
@@ -116,11 +108,6 @@ class UserControllerTest {
     @Test
     @DisplayName("로그인 실패 - password 틀림")
     void login_password_fail() throws Exception {
-        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-                .userName("user")
-                .password("1234")
-                .build();
-
         when(userService.login(any()))
                 .thenThrow(new AppException(ErrorCode.INVALID_PASSWORD, "Invalid password."));
 
