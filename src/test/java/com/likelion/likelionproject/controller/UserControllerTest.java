@@ -3,6 +3,7 @@ package com.likelion.likelionproject.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.likelion.likelionproject.dto.UserDto;
 import com.likelion.likelionproject.dto.UserJoinRequest;
+import com.likelion.likelionproject.dto.UserLoginRequest;
 import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.enums.ErrorCode;
 import com.likelion.likelionproject.service.UserService;
@@ -71,5 +72,64 @@ class UserControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    @DisplayName("로그인 성공")
+    void login_success() throws Exception {
+        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
+                .userName("user")
+                .password("1234")
+                .build();
+
+        when(userService.login(any())).thenReturn("token");
+
+        mockMvc.perform(post("/api/v1/users/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(userLoginRequest))
+                        .with(csrf())
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("로그인 실패 - userName 없음")
+    void login_username_fail() throws Exception {
+        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
+                .userName("user")
+                .password("1234")
+                .build();
+
+        when(userService.login(any()))
+                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND, "UserName not found."));
+
+        mockMvc.perform(post("/api/v1/users/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(userLoginRequest))
+                        .with(csrf())
+                )
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("로그인 실패 - password 틀림")
+    void login_password_fail() throws Exception {
+        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
+                .userName("user")
+                .password("1234")
+                .build();
+
+        when(userService.login(any()))
+                .thenThrow(new AppException(ErrorCode.INVALID_PASSWORD, "Invalid password."));
+
+        mockMvc.perform(post("/api/v1/users/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(userLoginRequest))
+                        .with(csrf())
+                )
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
     }
 }
