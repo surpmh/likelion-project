@@ -25,6 +25,7 @@ public class PostReadResponse {
                 .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
+                .userName(post.getUser().getUserName())
                 .createdAt(post.getCreatedAt())
                 .lastModifiedAt(post.getLastModifiedAt())
                 .build();

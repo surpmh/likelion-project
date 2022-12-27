@@ -1,6 +1,7 @@
 package com.likelion.likelionproject.dto;
 
 import com.likelion.likelionproject.entity.Post;
+import com.likelion.likelionproject.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +15,11 @@ public class PostWriteRequest {
     private String title;
     private String body;
 
-    public Post toEntity() {
+    public Post toEntity(User user) {
         return Post.builder()
                 .title(this.title)
                 .body(this.body)
+                .user(user)
                 .build();
     }
 }
