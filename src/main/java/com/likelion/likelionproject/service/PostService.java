@@ -39,4 +39,8 @@ public class PostService {
                 .body(editPost.getBody())
                 .build();
     }
+
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
 }

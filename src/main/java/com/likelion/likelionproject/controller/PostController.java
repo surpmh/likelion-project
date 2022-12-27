@@ -35,4 +35,11 @@ public class PostController {
         PostDto postDto = postService.edit(id, postWriteRequest);
         return Response.success(new PostResponse("포스트 수정 완료", postDto.getId()));
     }
+
+    // 포스트 삭제
+    @DeleteMapping("/{id}")
+    public Response<PostResponse> delete(@PathVariable Long id) {
+        postService.delete(id);
+        return Response.success(new PostResponse("포스트 삭제 완료", id));
+    }
 }
