@@ -1,9 +1,6 @@
 package com.likelion.likelionproject.controller;
 
-import com.likelion.likelionproject.dto.PostCreateRequest;
-import com.likelion.likelionproject.dto.PostResponse;
-import com.likelion.likelionproject.dto.PostDto;
-import com.likelion.likelionproject.dto.Response;
+import com.likelion.likelionproject.dto.*;
 import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +24,15 @@ public class PostController {
 
     // 포스트 등록
     @PostMapping("/create")
-    public Response<PostResponse> create(@RequestBody PostCreateRequest postCreateRequest) {
+    public Response<PostResponse> create(@RequestBody PostWriteRequest postCreateRequest) {
         PostDto postDto = postService.create(postCreateRequest);
         return Response.success(new PostResponse("포스트 등록 완료", postDto.getId()));
+    }
+
+    // 포스트 수정
+    @PostMapping("/{id}")
+    public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostWriteRequest postWriteRequest) {
+        PostDto postDto = postService.edit(id, postWriteRequest);
+        return Response.success(new PostResponse("포스트 수정 완료", postDto.getId()));
     }
 }

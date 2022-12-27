@@ -1,5 +1,6 @@
 package com.likelion.likelionproject.entity;
 
+import com.likelion.likelionproject.dto.PostWriteRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +21,9 @@ public class Post extends BaseEntity {
 
     private String title;
     private String body;
+
+    public void postEdit(PostWriteRequest postWriteRequest) {
+        this.title = postWriteRequest.getTitle();
+        this.body = postWriteRequest.getBody();
+    }
 }
