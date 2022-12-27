@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
 
+    // 포스트 상세
     public Post detail(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, "Post not founded."));
     }
 
+    // 포스트 등록
     public PostDto create(PostWriteRequest request) {
         Post savedPost = postRepository.save(request.toEntity());
 
@@ -28,6 +30,7 @@ public class PostService {
                 .build();
     }
 
+    // 포스트 수정
     public PostDto edit(Long id, PostWriteRequest request) {
         Post post = postRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, "Post not founded."));
         post.postEdit(request);
@@ -40,6 +43,7 @@ public class PostService {
                 .build();
     }
 
+    // 포스트 삭제
     public void delete(Long id) {
         postRepository.deleteById(id);
     }
