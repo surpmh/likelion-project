@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostCreateResponse {
+public class PostResponse {
     private String message;
     private Long postId;
 }
