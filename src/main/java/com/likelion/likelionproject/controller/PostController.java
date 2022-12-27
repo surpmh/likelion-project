@@ -5,6 +5,7 @@ import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -24,22 +25,22 @@ public class PostController {
 
     // 포스트 등록
     @PostMapping("")
-    public Response<PostResponse> create(@RequestBody PostWriteRequest postCreateRequest) {
-        PostDto postDto = postService.create(postCreateRequest);
+    public Response<PostResponse> create(@RequestBody PostWriteRequest postCreateRequest, Authentication authentication) {
+        PostDto postDto = postService.create(postCreateRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 등록 완료", postDto.getId()));
     }
 
     // 포스트 수정
     @PostMapping("/{id}")
-    public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostWriteRequest postWriteRequest) {
-        PostDto postDto = postService.edit(id, postWriteRequest);
+    public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostWriteRequest postWriteRequest, Authentication authentication) {
+        PostDto postDto = postService.edit(id, postWriteRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 수정 완료", postDto.getId()));
     }
 
     // 포스트 삭제
     @DeleteMapping("/{id}")
-    public Response<PostResponse> delete(@PathVariable Long id) {
-        postService.delete(id);
+    public Response<PostResponse> delete(@PathVariable Long id, Authentication authentication) {
+        postService.delete(id, authentication.getName());
         return Response.success(new PostResponse("포스트 삭제 완료", id));
     }
 }
