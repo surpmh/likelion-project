@@ -7,7 +7,7 @@ import com.likelion.likelionproject.entity.User;
 import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.enums.ErrorCode;
 import com.likelion.likelionproject.repository.UserRepository;
-import com.likelion.likelionproject.utils.JwtTokenUtil;
+import com.likelion.likelionproject.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
 
-    @Value("${jwt.token.secret}")
+    @Value("${jwt.secret}")
     private String key;
     private Long expireTimeMx = 3600000L;
 
@@ -53,8 +53,6 @@ public class UserService {
             throw new AppException(ErrorCode.INVALID_PASSWORD, "Invalid password");
         }
 
-        String token = JwtTokenUtil.createToken(selectedUser.getUserName(), key, expireTimeMx);
-
-        return token;
+        return JwtUtil.createToken(selectedUser.getUserName(), key, expireTimeMx);
     }
 }
