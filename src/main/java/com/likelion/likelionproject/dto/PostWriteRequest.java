@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostCreateRequest {
+public class PostWriteRequest {
     private String title;
     private String body;
 
