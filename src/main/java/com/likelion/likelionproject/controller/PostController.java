@@ -23,7 +23,7 @@ public class PostController {
     }
 
     // 포스트 등록
-    @PostMapping("/create")
+    @PostMapping("")
     public Response<PostResponse> create(@RequestBody PostWriteRequest postCreateRequest) {
         PostDto postDto = postService.create(postCreateRequest);
         return Response.success(new PostResponse("포스트 등록 완료", postDto.getId()));
