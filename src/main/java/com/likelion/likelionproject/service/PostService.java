@@ -41,12 +41,12 @@ public class PostService {
 
     // 포스트 수정
     public PostDto edit(Long id, PostWriteRequest request, String userName) {
-        userRepository.findByUserName(userName)
+        User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
         postRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
         Post post = postRepository.findById(id)
-                .filter(posts -> Objects.equals(posts.getUser().getUserName(), userName))
+                .filter(posts -> Objects.equals(posts.getUser().getId(), user.getId()))
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION, ErrorCode.INVALID_PERMISSION.getMessage()));
         post.postEdit(request);
         Post editPost = postRepository.save(post);

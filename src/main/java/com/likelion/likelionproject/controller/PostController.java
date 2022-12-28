@@ -31,7 +31,7 @@ public class PostController {
     }
 
     // 포스트 수정
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostWriteRequest postWriteRequest, Authentication authentication) {
         PostDto postDto = postService.edit(id, postWriteRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 수정 완료", postDto.getId()));
