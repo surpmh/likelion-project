@@ -28,7 +28,7 @@ public class UserService {
     public UserDto join(UserJoinRequest request) {
         userRepository.findByUserName(request.getUserName())
                 .ifPresent(user -> {
-                    throw new AppException(ErrorCode.DUPLICATED_USER_NAME, String.format("%s is duplicated.", request.getUserName()));
+                    throw new AppException(ErrorCode.DUPLICATED_USER_NAME, ErrorCode.DUPLICATED_USER_NAME.getMessage());
                 });
 
         User savedUser = userRepository.save(request.toEntity(encoder.encode(request.getPassword())));
