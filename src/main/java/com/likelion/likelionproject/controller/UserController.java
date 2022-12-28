@@ -1,6 +1,7 @@
 package com.likelion.likelionproject.controller;
 
 import com.likelion.likelionproject.dto.*;
+import com.likelion.likelionproject.dto.user.*;
 import com.likelion.likelionproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

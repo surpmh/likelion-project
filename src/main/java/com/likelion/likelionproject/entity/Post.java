@@ -1,6 +1,6 @@
 package com.likelion.likelionproject.entity;
 
-import com.likelion.likelionproject.dto.PostWriteRequest;
+import com.likelion.likelionproject.dto.post.PostWriteRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

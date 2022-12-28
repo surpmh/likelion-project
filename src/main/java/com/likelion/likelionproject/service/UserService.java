@@ -1,8 +1,8 @@
 package com.likelion.likelionproject.service;
 
-import com.likelion.likelionproject.dto.UserDto;
-import com.likelion.likelionproject.dto.UserJoinRequest;
-import com.likelion.likelionproject.dto.UserLoginRequest;
+import com.likelion.likelionproject.dto.user.UserDto;
+import com.likelion.likelionproject.dto.user.UserJoinRequest;
+import com.likelion.likelionproject.dto.user.UserLoginRequest;
 import com.likelion.likelionproject.entity.User;
 import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.enums.ErrorCode;

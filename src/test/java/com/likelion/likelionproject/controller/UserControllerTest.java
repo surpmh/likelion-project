@@ -1,14 +1,12 @@
 package com.likelion.likelionproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.likelion.likelionproject.dto.UserDto;
-import com.likelion.likelionproject.dto.UserJoinRequest;
-import com.likelion.likelionproject.dto.UserLoginRequest;
+import com.likelion.likelionproject.dto.user.UserDto;
+import com.likelion.likelionproject.dto.user.UserJoinRequest;
+import com.likelion.likelionproject.dto.user.UserLoginRequest;
 import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.enums.ErrorCode;
 import com.likelion.likelionproject.service.UserService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

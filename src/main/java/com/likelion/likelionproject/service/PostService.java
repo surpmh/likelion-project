@@ -1,7 +1,7 @@
 package com.likelion.likelionproject.service;
 
-import com.likelion.likelionproject.dto.PostWriteRequest;
-import com.likelion.likelionproject.dto.PostDto;
+import com.likelion.likelionproject.dto.post.PostWriteRequest;
+import com.likelion.likelionproject.dto.post.PostDto;
 import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.entity.User;
 import com.likelion.likelionproject.enums.ErrorCode;

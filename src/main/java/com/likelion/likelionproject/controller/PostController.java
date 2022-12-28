@@ -1,6 +1,10 @@
 package com.likelion.likelionproject.controller;
 
 import com.likelion.likelionproject.dto.*;
+import com.likelion.likelionproject.dto.post.PostDto;
+import com.likelion.likelionproject.dto.post.PostReadResponse;
+import com.likelion.likelionproject.dto.post.PostResponse;
+import com.likelion.likelionproject.dto.post.PostWriteRequest;
 import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;

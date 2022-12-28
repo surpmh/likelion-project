@@ -1,4 +1,4 @@
-package com.likelion.likelionproject.dto;
+package com.likelion.likelionproject.dto.post;
 
 import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.entity.User;

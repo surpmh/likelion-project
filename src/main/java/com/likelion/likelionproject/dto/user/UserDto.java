@@ -1,4 +1,4 @@
-package com.likelion.likelionproject.dto;
+package com.likelion.likelionproject.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostResponse {
-    private String message;
-    private Long postId;
+public class UserDto {
+    private Long id;
+    private String userName;
+    private String password;
 }
