@@ -22,9 +22,8 @@ public class PostController {
     // 포스트 상세
     @GetMapping("/{id}")
     public Response<PostReadResponse> detail(@PathVariable Long id) {
-        Post post = postService.detail(id);
-        PostReadResponse response = PostReadResponse.fromEntity(post);
-        return Response.success(response);
+        PostReadResponse PostReadResponse = postService.detail(id);
+        return Response.success(PostReadResponse);
     }
 
     // 포스트 등록

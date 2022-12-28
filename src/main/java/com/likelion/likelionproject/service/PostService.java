@@ -1,5 +1,6 @@
 package com.likelion.likelionproject.service;
 
+import com.likelion.likelionproject.dto.post.PostReadResponse;
 import com.likelion.likelionproject.dto.post.PostWriteRequest;
 import com.likelion.likelionproject.dto.post.PostDto;
 import com.likelion.likelionproject.entity.Post;
@@ -20,9 +21,11 @@ public class PostService {
     private final UserRepository userRepository;
 
     // 포스트 상세
-    public Post detail(Long id) {
-        return postRepository.findById(id)
+    public PostReadResponse detail(Long id) {
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+
+        return PostReadResponse.fromEntity(post);
     }
 
     // 포스트 등록
