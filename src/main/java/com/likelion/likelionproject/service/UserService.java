@@ -31,12 +31,7 @@ public class UserService {
                     throw new AppException(ErrorCode.DUPLICATED_USER_NAME, String.format("%s is duplicated.", request.getUserName()));
                 });
 
-        User user = User.builder()
-                .userName(request.getUserName())
-                .password(encoder.encode(request.getPassword()))
-                .build();
-
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(request.toEntity(encoder.encode(request.getPassword())));
 
         return UserDto.builder()
                 .id(savedUser.getId())
