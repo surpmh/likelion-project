@@ -47,10 +47,10 @@ public class UserService {
 
     public String login(UserLoginRequest request) {
         User selectedUser = userRepository.findByUserName(request.getUserName())
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s is not found.", request.getUserName())));
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
 
         if (!encoder.matches(request.getPassword(), selectedUser.getPassword())) {
-            throw new AppException(ErrorCode.INVALID_PASSWORD, "Invalid password");
+            throw new AppException(ErrorCode.INVALID_PASSWORD, ErrorCode.INVALID_PASSWORD.getMessage());
         }
 
         return JwtUtil.createToken(selectedUser.getUserName(), key, expireTimeMx);
