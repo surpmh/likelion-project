@@ -10,6 +10,7 @@ import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -19,6 +20,19 @@ import java.util.Objects;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+
+    // 권한 오류
+    private Post checkPermission(Long id, String userName) {
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+        if (!Objects.equals(post.getUser().getId(), user.getId())) {
+            throw new AppException(ErrorCode.INVALID_PERMISSION, ErrorCode.INVALID_PERMISSION.getMessage());
+        }
+
+        return post;
+    }
 
     // 포스트 상세
     public PostReadResponse detail(Long id) {
@@ -44,13 +58,8 @@ public class PostService {
 
     // 포스트 수정
     public PostDto edit(Long id, PostWriteRequest request, String userName) {
-        User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
-        postRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
-        Post post = postRepository.findById(id)
-                .filter(posts -> Objects.equals(posts.getUser().getId(), user.getId()))
-                .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION, ErrorCode.INVALID_PERMISSION.getMessage()));
+        Post post = checkPermission(id, userName);
+
         post.postEdit(request);
         Post editPost = postRepository.save(post);
 
@@ -63,13 +72,8 @@ public class PostService {
 
     // 포스트 삭제
     public void delete(Long id, String userName) {
-        userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
-        postRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
-        postRepository.findById(id)
-                .filter(posts -> Objects.equals(posts.getUser().getUserName(), userName))
-                .orElseThrow(() -> new AppException(ErrorCode.INVALID_PERMISSION, ErrorCode.INVALID_PERMISSION.getMessage()));
-        postRepository.deleteById(id);
+        Post post = checkPermission(id, userName);
+
+        postRepository.delete(post);
     }
 }
