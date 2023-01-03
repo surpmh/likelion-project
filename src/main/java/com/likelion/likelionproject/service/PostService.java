@@ -10,7 +10,6 @@ import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -21,7 +20,9 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    // 권한 오류
+    /**
+     * 권한 오류
+     */
     private Post checkPermission(Long id, String userName) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
@@ -34,7 +35,9 @@ public class PostService {
         return post;
     }
 
-    // 포스트 상세
+    /**
+     * 포스트 상세
+     */
     public PostReadResponse detail(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
@@ -42,7 +45,9 @@ public class PostService {
         return PostReadResponse.fromEntity(post);
     }
 
-    // 포스트 등록
+    /**
+     * 포스트 등록
+     */
     public PostDto create(PostWriteRequest request, String userName) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
@@ -56,7 +61,9 @@ public class PostService {
                 .build();
     }
 
-    // 포스트 수정
+    /**
+     * 포스트 수정
+     */
     public PostDto edit(Long id, PostWriteRequest request, String userName) {
         Post post = checkPermission(id, userName);
 
@@ -70,7 +77,9 @@ public class PostService {
                 .build();
     }
 
-    // 포스트 삭제
+    /**
+     * 포스트 삭제
+     */
     public void delete(Long id, String userName) {
         Post post = checkPermission(id, userName);
 
