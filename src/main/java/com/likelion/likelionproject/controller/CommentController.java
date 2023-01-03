@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/{postsId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
-    private CommentService commentService;
+    private final CommentService commentService;
 
     /**
      * 댓글 등록
@@ -24,4 +24,8 @@ public class CommentController {
         CommentDto commentDto = commentService.create(postsId, commentRequest, authentication.getName());
         return Response.success(commentDto);
     }
+
+    /**
+     * 댓글 수정
+     */
 }

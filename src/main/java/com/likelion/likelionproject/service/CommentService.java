@@ -10,11 +10,15 @@ import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.repository.CommentRepository;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@RequiredArgsConstructor
 public class CommentService {
-    private UserRepository userRepository;
-    private PostRepository postRepository;
-    private CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     /**
      * 댓글 등록
