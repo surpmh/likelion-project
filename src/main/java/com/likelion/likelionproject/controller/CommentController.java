@@ -24,8 +24,4 @@ public class CommentController {
         CommentDto commentDto = commentService.create(postsId, commentRequest, authentication.getName());
         return Response.success(commentDto);
     }
-
-    /**
-     * 댓글 수정
-     */
 }
