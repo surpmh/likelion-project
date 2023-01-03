@@ -40,14 +40,7 @@ public class CommentService {
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
         Comment savedComment = commentRepository.save(request.toEntity(user, post));
 
-        return CommentDto.builder()
-                .id(savedComment.getId())
-                .comment(savedComment.getComment())
-                .userName(savedComment.getUser().getUserName())
-                .postId(savedComment.getPost().getId())
-                .createdAt(savedComment.getCreatedAt())
-                .lastModifiedAt(savedComment.getLastModifiedAt())
-                .build();
+        return CommentDto.fromEntity(savedComment);
     }
 
     /**
@@ -61,14 +54,7 @@ public class CommentService {
         comment.commentEdit(request);
         Comment editComment = commentRepository.save(comment);
 
-        return CommentDto.builder()
-                .id(editComment.getId())
-                .comment(editComment.getComment())
-                .userName(editComment.getUser().getUserName())
-                .postId(editComment.getPost().getId())
-                .createdAt(editComment.getCreatedAt())
-                .lastModifiedAt(editComment.getLastModifiedAt())
-                .build();
+        return CommentDto.fromEntity(editComment);
     }
 
     /**
