@@ -3,6 +3,7 @@ package com.likelion.likelionproject.controller;
 import com.likelion.likelionproject.dto.Response;
 import com.likelion.likelionproject.dto.comment.CommentDto;
 import com.likelion.likelionproject.dto.comment.CommentRequest;
+import com.likelion.likelionproject.dto.comment.CommentResponse;
 import com.likelion.likelionproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,6 @@ public class CommentController {
      */
     @PutMapping("/{id}")
     public Response<CommentDto> edit(@PathVariable Long postsId, @PathVariable Long id, @RequestBody CommentRequest commentRequest, Authentication authentication) {
-        log.info(String.valueOf(postsId), id);
         CommentDto commentDto = commentService.edit(postsId, id, commentRequest, authentication.getName());
         return Response.success(commentDto);
     }

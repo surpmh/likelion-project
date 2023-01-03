@@ -63,4 +63,8 @@ public class CommentService {
                 .lastModifiedAt(editComment.getLastModifiedAt())
                 .build();
     }
+
+    /**
+     * 댓글 삭제
+     */
 }
