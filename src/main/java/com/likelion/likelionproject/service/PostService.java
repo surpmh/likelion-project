@@ -54,11 +54,7 @@ public class PostService {
 
         Post savedPost = postRepository.save(request.toEntity(user));
 
-        return PostDto.builder()
-                .id(savedPost.getId())
-                .title(savedPost.getTitle())
-                .body(savedPost.getBody())
-                .build();
+        return PostDto.fromEntity(savedPost);
     }
 
     /**
@@ -70,11 +66,7 @@ public class PostService {
         post.postEdit(request);
         Post editPost = postRepository.save(post);
 
-        return PostDto.builder()
-                .id(editPost.getId())
-                .title(editPost.getTitle())
-                .body(editPost.getBody())
-                .build();
+        return PostDto.fromEntity(editPost);
     }
 
     /**
