@@ -21,6 +21,16 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     /**
+     * 권한 확인
+     */
+    private Comment checkPermission(Long id, String userName) {
+        userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND.getMessage()));
+    }
+
+    /**
      * 댓글 등록
      */
     public CommentDto create(Long postsId, CommentRequest request, String userName) {
@@ -44,12 +54,9 @@ public class CommentService {
      * 댓글 수정
      */
     public CommentDto edit(Long postsId, Long id, CommentRequest request, String userName) {
-        userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
+        Comment comment = checkPermission(id, userName);
         postRepository.findById(postsId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND.getMessage()));
 
         comment.commentEdit(request);
         Comment editComment = commentRepository.save(comment);
@@ -68,10 +75,7 @@ public class CommentService {
      * 댓글 삭제
      */
     public void delete(Long id, String userName) {
-        userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND.getMessage()));
+        Comment comment = checkPermission(id, userName);
 
         commentRepository.delete(comment);
     }
