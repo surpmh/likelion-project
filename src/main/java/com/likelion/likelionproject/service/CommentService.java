@@ -26,10 +26,8 @@ public class CommentService {
     public CommentDto create(Long postsId, CommentRequest request, String userName) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
-
         Post post = postRepository.findById(postsId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
-
         Comment savedComment = commentRepository.save(request.toEntity(user, post));
 
         return CommentDto.builder()
@@ -38,6 +36,7 @@ public class CommentService {
                 .userName(savedComment.getUser().getUserName())
                 .postId(savedComment.getPost().getId())
                 .createdAt(savedComment.getCreatedAt())
+                .lastModifiedAt(savedComment.getLastModifiedAt())
                 .build();
     }
 
