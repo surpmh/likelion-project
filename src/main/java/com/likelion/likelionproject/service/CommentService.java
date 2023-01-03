@@ -40,4 +40,28 @@ public class CommentService {
                 .createdAt(savedComment.getCreatedAt())
                 .build();
     }
+
+    /**
+     * 댓글 수정
+     */
+    public CommentDto edit(Long postsId, Long id, CommentRequest request, String userName) {
+        userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
+        postRepository.findById(postsId)
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND.getMessage()));
+
+        comment.commentEdit(request);
+        Comment editComment = commentRepository.save(comment);
+
+        return CommentDto.builder()
+                .id(editComment.getId())
+                .comment(editComment.getComment())
+                .userName(editComment.getUser().getUserName())
+                .postId(editComment.getPost().getId())
+                .createdAt(editComment.getCreatedAt())
+                .lastModifiedAt(editComment.getLastModifiedAt())
+                .build();
+    }
 }

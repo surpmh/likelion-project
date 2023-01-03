@@ -1,5 +1,6 @@
 package com.likelion.likelionproject.entity;
 
+import com.likelion.likelionproject.dto.comment.CommentRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,4 +28,8 @@ public class Comment extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public void commentEdit(CommentRequest commentRequest) {
+        this.comment = commentRequest.getComment();
+    }
 }

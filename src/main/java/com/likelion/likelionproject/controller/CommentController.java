@@ -24,4 +24,14 @@ public class CommentController {
         CommentDto commentDto = commentService.create(postsId, commentRequest, authentication.getName());
         return Response.success(commentDto);
     }
+
+    /**
+     * 댓글 수정
+     */
+    @PutMapping("/{id}")
+    public Response<CommentDto> edit(@PathVariable Long postsId, @PathVariable Long id, @RequestBody CommentRequest commentRequest, Authentication authentication) {
+        log.info(String.valueOf(postsId), id);
+        CommentDto commentDto = commentService.edit(postsId, id, commentRequest, authentication.getName());
+        return Response.success(commentDto);
+    }
 }

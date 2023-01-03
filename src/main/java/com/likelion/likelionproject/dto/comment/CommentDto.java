@@ -18,4 +18,5 @@ public class CommentDto extends BaseEntity {
     private String userName;
     private Long postId;
     private LocalDateTime createdAt;
+    private LocalDateTime lastModifiedAt;
 }
