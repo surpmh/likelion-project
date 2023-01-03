@@ -21,7 +21,7 @@ public class PostService {
     private final UserRepository userRepository;
 
     /**
-     * 권한 오류
+     * 권한 확인
      */
     private Post checkPermission(Long id, String userName) {
         User user = userRepository.findByUserName(userName)
