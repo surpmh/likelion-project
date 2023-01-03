@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,6 +22,9 @@ public class Post extends BaseEntity {
 
     private String title;
     private String body;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private List<Comment> Comment;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
