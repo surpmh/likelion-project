@@ -34,4 +34,13 @@ public class CommentController {
         CommentDto commentDto = commentService.edit(postsId, id, commentRequest, authentication.getName());
         return Response.success(commentDto);
     }
+
+    /**
+     * 댓글 삭제
+     */
+    @DeleteMapping("/{id}")
+    public Response<CommentResponse> delete(@PathVariable Long id, Authentication authentication) {
+        commentService.delete(id, authentication.getName());
+        return Response.success(new CommentResponse("댓글 삭제 완료", id));
+    }
 }

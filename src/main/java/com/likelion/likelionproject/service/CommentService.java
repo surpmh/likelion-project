@@ -67,4 +67,12 @@ public class CommentService {
     /**
      * 댓글 삭제
      */
+    public void delete(Long id, String userName) {
+        userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND.getMessage()));
+
+        commentRepository.delete(comment);
+    }
 }
