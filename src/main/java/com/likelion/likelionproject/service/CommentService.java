@@ -11,10 +11,13 @@ import com.likelion.likelionproject.repository.CommentRepository;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
@@ -28,6 +31,13 @@ public class CommentService {
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
         return commentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.COMMENT_NOT_FOUND, ErrorCode.COMMENT_NOT_FOUND.getMessage()));
+    }
+
+    /**
+     * 댓글 조회
+     */
+    public void list(Pageable pageable) {
+        commentRepository.findAll(pageable).map(CommentDto::fromEntity);
     }
 
     /**
