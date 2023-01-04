@@ -11,9 +11,13 @@ import com.likelion.likelionproject.repository.CommentRepository;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +40,10 @@ public class CommentService {
     /**
      * 댓글 조회
      */
-    public void list(Pageable pageable) {
-        commentRepository.findAll(pageable).map(CommentDto::fromEntity);
+    public Page<CommentDto> list(Long postsId, Pageable pageable) {
+        Page<CommentDto> commentDtos = commentRepository.findByPostId(postsId, pageable).map(CommentDto::fromEntity);
+
+        return commentDtos;
     }
 
     /**

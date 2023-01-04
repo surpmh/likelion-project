@@ -7,6 +7,10 @@ import com.likelion.likelionproject.dto.comment.CommentResponse;
 import com.likelion.likelionproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +20,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
+
+    /**
+     * 댓글 조회
+     */
+    @GetMapping("")
+    public Response<Page<CommentDto>> list(@PathVariable Long postsId, @PageableDefault(size = 10, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<CommentDto> commentDto = commentService.list(postsId, pageable);
+        return Response.success(commentDto);
+    }
+
 
     /**
      * 댓글 등록
