@@ -2,9 +2,14 @@ package com.likelion.likelionproject.controller;
 
 import com.likelion.likelionproject.dto.*;
 import com.likelion.likelionproject.dto.post.*;
+import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +21,20 @@ public class PostController {
     private final PostService postService;
 
     /**
+     * 포스트 리스트
+     */
+    @GetMapping("")
+    public Response<PostPageResponse> list(@PageableDefault(size = 20, direction = Sort.Direction.DESC) Pageable pageable) {
+        PostPageResponse postPageResponse = postService.list(pageable);
+        return Response.success(postPageResponse);
+    }
+
+    /**
      * 포스트 상세
      */
     @GetMapping("/{id}")
-    public Response<PostReadResponse> detail(@PathVariable Long id) {
-        PostReadResponse PostReadResponse = postService.detail(id);
+    public Response<PostDetailResponse> detail(@PathVariable Long id) {
+        PostDetailResponse PostReadResponse = postService.detail(id);
         return Response.success(PostReadResponse);
     }
 

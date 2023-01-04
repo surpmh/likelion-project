@@ -1,6 +1,7 @@
 package com.likelion.likelionproject.service;
 
-import com.likelion.likelionproject.dto.post.PostReadResponse;
+import com.likelion.likelionproject.dto.post.PostDetailResponse;
+import com.likelion.likelionproject.dto.post.PostPageResponse;
 import com.likelion.likelionproject.dto.post.PostWriteRequest;
 import com.likelion.likelionproject.dto.post.PostDto;
 import com.likelion.likelionproject.entity.Post;
@@ -10,6 +11,8 @@ import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,13 +41,45 @@ public class PostService {
     }
 
     /**
+     * 포스트 리스트
+     */
+    public PostPageResponse list(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
+        Page<PostDetailResponse> postDetailResponses = posts.map(
+                post -> PostDetailResponse.builder()
+                        .id(post.getId())
+                        .body(post.getBody())
+                        .title(post.getTitle())
+                        .userName(post.getUser().getUserName())
+                        .createdAt(post.getCreatedAt())
+                        .lastModifiedAt(post.getLastModifiedAt())
+                        .build());
+
+        PostPageResponse postPageResponse = PostPageResponse.builder()
+                .content(postDetailResponses.getContent())
+                .pageable("INSTANCE")
+                .last(postDetailResponses.hasNext())
+                .totalPages(postDetailResponses.getTotalPages())
+                .totalElements(postDetailResponses.getTotalElements())
+                .size(postDetailResponses.getSize())
+                .number(postDetailResponses.getNumber())
+                .sort(postDetailResponses.getSort())
+                .first(postDetailResponses.isFirst())
+                .numberOfElements(postDetailResponses.getNumberOfElements())
+                .empty(postDetailResponses.isEmpty())
+                .build();
+
+        return postPageResponse;
+    }
+
+    /**
      * 포스트 상세
      */
-    public PostReadResponse detail(Long id) {
+    public PostDetailResponse detail(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
 
-        return PostReadResponse.fromEntity(post);
+        return PostDetailResponse.fromEntity(post);
     }
 
     /**
