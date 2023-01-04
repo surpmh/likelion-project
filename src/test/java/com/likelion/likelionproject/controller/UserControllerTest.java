@@ -7,6 +7,7 @@ import com.likelion.likelionproject.dto.user.UserLoginRequest;
 import com.likelion.likelionproject.exception.AppException;
 import com.likelion.likelionproject.enums.ErrorCode;
 import com.likelion.likelionproject.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,14 @@ class UserControllerTest {
     @MockBean
     UserService userService;
 
-    UserJoinRequest userJoinRequest = UserJoinRequest.builder()
-            .userName("user")
-            .password("1234")
-            .build();
+    private UserJoinRequest userJoinRequest;
+    private UserLoginRequest userLoginRequest;
+
+    @BeforeEach
+    void setUp() {
+        userJoinRequest = new UserJoinRequest("user", "1234");
+        userLoginRequest = new UserLoginRequest("user", "1234");
+    }
 
     @Test
     @DisplayName("회원가입 성공")
@@ -68,11 +73,6 @@ class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isConflict());
     }
-
-    UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-            .userName("user")
-            .password("1234")
-            .build();
 
     @Test
     @DisplayName("로그인 성공")
