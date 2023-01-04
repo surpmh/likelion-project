@@ -41,6 +41,18 @@ public class PostService {
     }
 
     /**
+     * 마이 피드
+     */
+    public Page<PostDetailResponse> my(String userName, Pageable pageable) {
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
+
+        Page<PostDetailResponse> postDetailResponses = postRepository.findByUserId(user.getId(), pageable).map(PostDetailResponse::fromEntity);
+
+        return postDetailResponses;
+    }
+
+    /**
      * 포스트 리스트
      */
     public PostPageResponse list(Pageable pageable) {

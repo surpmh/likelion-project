@@ -5,6 +5,7 @@ import com.likelion.likelionproject.dto.post.*;
 import com.likelion.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -17,6 +18,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+
+    /**
+     * 마이 피드
+     */
+    @GetMapping("/my")
+    public Response<Page<PostDetailResponse>> my(@PageableDefault(size = 20, direction = Sort.Direction.DESC) Pageable pageable, Authentication authentication) {
+        Page<PostDetailResponse> postDetailResponses = postService.my(authentication.getName(), pageable);
+        return Response.success(postDetailResponses);
+    }
 
     /**
      * 포스트 리스트
