@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDto extends BaseEntity {
+public class CommentDetailResponse extends BaseEntity {
     private Long id;
     private String comment;
     private String userName;
@@ -21,8 +21,8 @@ public class CommentDto extends BaseEntity {
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
 
-    public static CommentDto fromEntity(Comment savedComment) {
-        return CommentDto.builder()
+    public static CommentDetailResponse fromEntity(Comment savedComment) {
+        return CommentDetailResponse.builder()
                 .id(savedComment.getId())
                 .comment(savedComment.getComment())
                 .userName(savedComment.getUser().getUserName())
