@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostWriteRequest {
+public class PostRequest {
     private String title;
     private String body;
 

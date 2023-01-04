@@ -2,11 +2,9 @@ package com.likelion.likelionproject.controller;
 
 import com.likelion.likelionproject.dto.*;
 import com.likelion.likelionproject.dto.post.*;
-import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -42,7 +40,7 @@ public class PostController {
      * 포스트 등록
      */
     @PostMapping("")
-    public Response<PostResponse> create(@RequestBody PostWriteRequest postWriteRequest, Authentication authentication) {
+    public Response<PostResponse> create(@RequestBody PostRequest postWriteRequest, Authentication authentication) {
         PostDto postDto = postService.create(postWriteRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 등록 완료", postDto.getId()));
     }
@@ -51,7 +49,7 @@ public class PostController {
      * 포스트 수정
      */
     @PutMapping("/{id}")
-    public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostWriteRequest postWriteRequest, Authentication authentication) {
+    public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostRequest postWriteRequest, Authentication authentication) {
         PostDto postDto = postService.edit(id, postWriteRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 수정 완료", postDto.getId()));
     }

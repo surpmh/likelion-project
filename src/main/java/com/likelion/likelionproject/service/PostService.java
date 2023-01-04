@@ -2,7 +2,7 @@ package com.likelion.likelionproject.service;
 
 import com.likelion.likelionproject.dto.post.PostDetailResponse;
 import com.likelion.likelionproject.dto.post.PostPageResponse;
-import com.likelion.likelionproject.dto.post.PostWriteRequest;
+import com.likelion.likelionproject.dto.post.PostRequest;
 import com.likelion.likelionproject.dto.post.PostDto;
 import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.entity.User;
@@ -85,7 +85,7 @@ public class PostService {
     /**
      * 포스트 등록
      */
-    public PostDto create(PostWriteRequest request, String userName) {
+    public PostDto create(PostRequest request, String userName) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
 
@@ -97,7 +97,7 @@ public class PostService {
     /**
      * 포스트 수정
      */
-    public PostDto edit(Long id, PostWriteRequest request, String userName) {
+    public PostDto edit(Long id, PostRequest request, String userName) {
         Post post = checkPermission(id, userName);
 
         post.postEdit(request);

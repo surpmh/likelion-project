@@ -1,13 +1,12 @@
 package com.likelion.likelionproject.entity;
 
-import com.likelion.likelionproject.dto.post.PostWriteRequest;
+import com.likelion.likelionproject.dto.post.PostRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -31,7 +30,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void postEdit(PostWriteRequest postWriteRequest) {
+    public void postEdit(PostRequest postWriteRequest) {
         this.title = postWriteRequest.getTitle();
         this.body = postWriteRequest.getBody();
     }
