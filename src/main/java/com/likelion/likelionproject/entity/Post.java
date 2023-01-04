@@ -34,6 +34,5 @@ public class Post extends BaseEntity {
     public void postEdit(PostWriteRequest postWriteRequest) {
         this.title = postWriteRequest.getTitle();
         this.body = postWriteRequest.getBody();
-        setModifiedAt(LocalDateTime.now());
     }
 }
