@@ -1,6 +1,6 @@
 package com.likelion.likelionproject.service;
 
-import com.likelion.likelionproject.dto.comment.CommentDto;
+import com.likelion.likelionproject.dto.comment.CommentDetailResponse;
 import com.likelion.likelionproject.dto.comment.CommentRequest;
 import com.likelion.likelionproject.entity.Comment;
 import com.likelion.likelionproject.entity.Post;
@@ -15,9 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,29 +37,29 @@ public class CommentService {
     /**
      * 댓글 조회
      */
-    public Page<CommentDto> list(Long postsId, Pageable pageable) {
-        Page<CommentDto> commentDtos = commentRepository.findByPostId(postsId, pageable).map(CommentDto::fromEntity);
+    public Page<CommentDetailResponse> list(Long postsId, Pageable pageable) {
+        Page<CommentDetailResponse> commentDetailResponse = commentRepository.findByPostId(postsId, pageable).map(CommentDetailResponse::fromEntity);
 
-        return commentDtos;
+        return commentDetailResponse;
     }
 
     /**
      * 댓글 등록
      */
-    public CommentDto create(Long postsId, CommentRequest request, String userName) {
+    public CommentDetailResponse create(Long postsId, CommentRequest request, String userName) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
         Post post = postRepository.findById(postsId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
         Comment savedComment = commentRepository.save(request.toEntity(user, post));
 
-        return CommentDto.fromEntity(savedComment);
+        return CommentDetailResponse.fromEntity(savedComment);
     }
 
     /**
      * 댓글 수정
      */
-    public CommentDto edit(Long postsId, Long id, CommentRequest request, String userName) {
+    public CommentDetailResponse edit(Long postsId, Long id, CommentRequest request, String userName) {
         Comment comment = checkPermission(id, userName);
         postRepository.findById(postsId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
@@ -70,7 +67,7 @@ public class CommentService {
         comment.commentEdit(request);
         Comment editComment = commentRepository.save(comment);
 
-        return CommentDto.fromEntity(editComment);
+        return CommentDetailResponse.fromEntity(editComment);
     }
 
     /**
