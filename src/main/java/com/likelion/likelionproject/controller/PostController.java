@@ -28,8 +28,8 @@ public class PostController {
      * 포스트 등록
      */
     @PostMapping("")
-    public Response<PostResponse> create(@RequestBody PostWriteRequest postCreateRequest, Authentication authentication) {
-        PostDto postDto = postService.create(postCreateRequest, authentication.getName());
+    public Response<PostResponse> create(@RequestBody PostWriteRequest postWriteRequest, Authentication authentication) {
+        PostDto postDto = postService.create(postWriteRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 등록 완료", postDto.getId()));
     }
 
