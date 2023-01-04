@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -33,5 +34,6 @@ public class Post extends BaseEntity {
     public void postEdit(PostWriteRequest postWriteRequest) {
         this.title = postWriteRequest.getTitle();
         this.body = postWriteRequest.getBody();
+        setModifiedAt(LocalDateTime.now());
     }
 }
