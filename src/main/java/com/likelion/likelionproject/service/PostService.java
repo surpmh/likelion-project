@@ -44,16 +44,7 @@ public class PostService {
      * 포스트 리스트
      */
     public PostPageResponse list(Pageable pageable) {
-        Page<Post> posts = postRepository.findAll(pageable);
-        Page<PostDetailResponse> postDetailResponses = posts.map(
-                post -> PostDetailResponse.builder()
-                        .id(post.getId())
-                        .body(post.getBody())
-                        .title(post.getTitle())
-                        .userName(post.getUser().getUserName())
-                        .createdAt(post.getCreatedAt())
-                        .lastModifiedAt(post.getLastModifiedAt())
-                        .build());
+        Page<PostDetailResponse> postDetailResponses = postRepository.findAll(pageable).map(PostDetailResponse::fromEntity);
 
         PostPageResponse postPageResponse = PostPageResponse.builder()
                 .content(postDetailResponses.getContent())
