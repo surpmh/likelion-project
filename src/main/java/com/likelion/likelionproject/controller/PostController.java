@@ -5,6 +5,9 @@ import com.likelion.likelionproject.dto.post.*;
 import com.likelion.likelionproject.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +19,20 @@ public class PostController {
     private final PostService postService;
 
     /**
+     * 포스트 리스트
+     */
+    @GetMapping("")
+    public Response<PostPageResponse> list(@PageableDefault(size = 20, direction = Sort.Direction.DESC) Pageable pageable) {
+        PostPageResponse postPageResponse = postService.list(pageable);
+        return Response.success(postPageResponse);
+    }
+
+    /**
      * 포스트 상세
      */
     @GetMapping("/{id}")
-    public Response<PostReadResponse> detail(@PathVariable Long id) {
-        PostReadResponse PostReadResponse = postService.detail(id);
+    public Response<PostDetailResponse> detail(@PathVariable Long id) {
+        PostDetailResponse PostReadResponse = postService.detail(id);
         return Response.success(PostReadResponse);
     }
 
@@ -28,7 +40,7 @@ public class PostController {
      * 포스트 등록
      */
     @PostMapping("")
-    public Response<PostResponse> create(@RequestBody PostWriteRequest postWriteRequest, Authentication authentication) {
+    public Response<PostResponse> create(@RequestBody PostRequest postWriteRequest, Authentication authentication) {
         PostDto postDto = postService.create(postWriteRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 등록 완료", postDto.getId()));
     }
@@ -37,7 +49,7 @@ public class PostController {
      * 포스트 수정
      */
     @PutMapping("/{id}")
-    public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostWriteRequest postWriteRequest, Authentication authentication) {
+    public Response<PostResponse> edit(@PathVariable Long id, @RequestBody PostRequest postWriteRequest, Authentication authentication) {
         PostDto postDto = postService.edit(id, postWriteRequest, authentication.getName());
         return Response.success(new PostResponse("포스트 수정 완료", postDto.getId()));
     }

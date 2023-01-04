@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostReadResponse {
+public class PostDetailResponse {
     private Long id;
     private String title;
     private String body;
@@ -20,8 +20,8 @@ public class PostReadResponse {
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;
 
-    public static PostReadResponse fromEntity(Post post) {
-        return PostReadResponse.builder()
+    public static PostDetailResponse fromEntity(Post post) {
+        return PostDetailResponse.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .body(post.getBody())
