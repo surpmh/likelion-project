@@ -2,8 +2,6 @@ package com.likelion.likelionproject.dto.comment;
 
 import com.likelion.likelionproject.entity.BaseEntity;
 import com.likelion.likelionproject.entity.Comment;
-import com.likelion.likelionproject.entity.Post;
-import com.likelion.likelionproject.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
