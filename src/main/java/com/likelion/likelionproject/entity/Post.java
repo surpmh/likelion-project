@@ -31,6 +31,9 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> Comment;
 
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private List<Like> Like;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
