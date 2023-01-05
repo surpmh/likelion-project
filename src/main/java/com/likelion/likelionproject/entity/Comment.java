@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
@@ -13,6 +15,8 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE comment SET deleted_at = true WHERE id = ?")
+@Where(clause = "deleted_at = false")
 public class Comment extends BaseEntity {
 
     @Id
@@ -20,6 +24,7 @@ public class Comment extends BaseEntity {
     private Long id;
 
     private String comment;
+    private boolean deletedAt = Boolean.FALSE;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE post SET deleted_at = true WHERE id = ?")
+@Where(clause = "deleted_at = false")
 public class Post extends BaseEntity {
 
     @Id
@@ -22,6 +26,7 @@ public class Post extends BaseEntity {
 
     private String title;
     private String body;
+    private boolean deletedAt = Boolean.FALSE;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Comment> Comment;
