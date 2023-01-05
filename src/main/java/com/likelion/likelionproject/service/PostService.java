@@ -8,6 +8,7 @@ import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.entity.User;
 import com.likelion.likelionproject.enums.ErrorCode;
 import com.likelion.likelionproject.exception.AppException;
+import com.likelion.likelionproject.repository.CommentRepository;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Objects;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     /**
      * 권한 확인
@@ -115,6 +117,7 @@ public class PostService {
     public void delete(Long id, String userName) {
         Post post = checkPermission(id, userName);
 
+        commentRepository.deleteAllByPost(post);
         postRepository.delete(post);
     }
 }
