@@ -32,8 +32,11 @@ public class User extends BaseEntity {
     private List<Post> post;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Comment> Comment;
+    private List<Comment> comment;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Like> Like;
+    private List<Like> like;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Alarm> alarms;
 }
