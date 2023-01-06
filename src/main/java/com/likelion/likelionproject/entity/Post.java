@@ -29,10 +29,10 @@ public class Post extends BaseEntity {
     private boolean deletedAt = Boolean.FALSE;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<Comment> Comment;
+    private List<Comment> comment;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private List<Like> Like;
+    private List<Like> like;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

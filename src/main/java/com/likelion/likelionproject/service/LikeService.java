@@ -1,5 +1,6 @@
 package com.likelion.likelionproject.service;
 
+import com.likelion.likelionproject.dto.alarm.AlarmRequest;
 import com.likelion.likelionproject.dto.like.LikeRequest;
 import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.entity.User;
@@ -21,6 +22,7 @@ public class LikeService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
+    private final AlarmService alarmService;
 
     /**
      * 좋아요 개수
@@ -48,6 +50,7 @@ public class LikeService {
                 () -> {
                     message[0] = "좋아요를 눌렀습니다.";
                     likeRepository.save(LikeRequest.toEntity(user, post));
+                    alarmService.notify(postsId, userName, new AlarmRequest("NEW_LIKE_ON_POST", "new like!"));
                 });
 
         return message[0];

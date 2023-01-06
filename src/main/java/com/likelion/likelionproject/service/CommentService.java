@@ -1,5 +1,6 @@
 package com.likelion.likelionproject.service;
 
+import com.likelion.likelionproject.dto.alarm.AlarmRequest;
 import com.likelion.likelionproject.dto.comment.CommentDetailResponse;
 import com.likelion.likelionproject.dto.comment.CommentRequest;
 import com.likelion.likelionproject.entity.Comment;
@@ -23,6 +24,7 @@ public class CommentService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final AlarmService alarmService;
 
     /**
      * 권한 확인
@@ -52,6 +54,8 @@ public class CommentService {
         Post post = postRepository.findById(postsId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
         Comment savedComment = commentRepository.save(request.toEntity(user, post));
+
+        alarmService.notify(postsId, userName, new AlarmRequest("NEW_COMMENT_ON_POST", "new comment!"));
 
         return CommentDetailResponse.fromEntity(savedComment);
     }
