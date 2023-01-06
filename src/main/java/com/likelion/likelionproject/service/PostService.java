@@ -8,10 +8,7 @@ import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.entity.User;
 import com.likelion.likelionproject.enums.ErrorCode;
 import com.likelion.likelionproject.exception.AppException;
-import com.likelion.likelionproject.repository.AlarmRepository;
-import com.likelion.likelionproject.repository.CommentRepository;
-import com.likelion.likelionproject.repository.PostRepository;
-import com.likelion.likelionproject.repository.UserRepository;
+import com.likelion.likelionproject.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +24,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
     private final AlarmRepository alarmRepository;
 
     /**
@@ -120,6 +118,7 @@ public class PostService {
         Post post = checkPermission(id, userName);
 
         alarmRepository.deleteAllByPost(post);
+        likeRepository.deleteAllByPost(post);
         commentRepository.deleteAllByPost(post);
         postRepository.delete(post);
     }
