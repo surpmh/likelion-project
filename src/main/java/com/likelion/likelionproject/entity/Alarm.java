@@ -26,9 +26,13 @@ public class Alarm extends BaseEntity {
     private Long fromUserId;
     private Long targetId;
     private String text;
-    private Boolean deletedAt;
+    private boolean deletedAt = Boolean.FALSE;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 }

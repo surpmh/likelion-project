@@ -10,10 +10,12 @@ import com.likelion.likelionproject.repository.AlarmRepository;
 import com.likelion.likelionproject.repository.PostRepository;
 import com.likelion.likelionproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AlarmService {
@@ -24,7 +26,7 @@ public class AlarmService {
     /**
      * 알람 리스트
      */
-    public Page<AlarmDetailResponse> alarm(String userName, Pageable pageable) {
+    public Page<AlarmDetailResponse> list(String userName, Pageable pageable) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
 
@@ -50,6 +52,6 @@ public class AlarmService {
             throw new AppException(ErrorCode.SELF_ALARM, ErrorCode.SELF_ALARM.getMessage());
         }
 
-        alarmRepository.save(request.toEntity(fromUser, targetUser));
+        alarmRepository.save(request.toEntity(post, fromUser, targetUser));
     }
 }

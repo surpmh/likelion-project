@@ -20,14 +20,14 @@ public class AlarmDetailResponse {
     private String text;
     private LocalDateTime createdAt;
 
-    public static AlarmDetailResponse fromEntity(Alarm savedAlarm) {
+    public static AlarmDetailResponse fromEntity(Alarm alarm) {
         return AlarmDetailResponse.builder()
-                .id(savedAlarm.getId())
-                .alarmType(savedAlarm.getAlarmType())
-                .fromUserId(savedAlarm.getFromUserId())
-                .targetId(savedAlarm.getTargetId())
-                .text(savedAlarm.getText())
-                .createdAt(savedAlarm.getCreatedAt())
+                .id(alarm.getId())
+                .alarmType(alarm.getAlarmType())
+                .fromUserId(alarm.getFromUserId())
+                .targetId(alarm.getTargetId())
+                .text(alarm.getText())
+                .createdAt(alarm.getCreatedAt())
                 .build();
     }
 }

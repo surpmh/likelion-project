@@ -26,7 +26,7 @@ public class AlarmController {
      */
     @GetMapping("")
     public Response<Page<AlarmDetailResponse>> alarm(@PageableDefault(size = 20, direction = Sort.Direction.DESC) Pageable pageable, Authentication authentication) {
-        Page<AlarmDetailResponse> detailResponses = alarmService.alarm(authentication.getName(), pageable);
-        return Response.success(detailResponses);
+        Page<AlarmDetailResponse> alarmDetailResponses = alarmService.list(authentication.getName(), pageable);
+        return Response.success(alarmDetailResponses);
     }
 }
