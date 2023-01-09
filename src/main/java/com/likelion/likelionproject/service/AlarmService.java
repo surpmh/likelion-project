@@ -48,10 +48,8 @@ public class AlarmService {
         User targetUser = userRepository.findByUserName(post.getUser().getUserName())
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
 
-//        if (fromUser.equals(targetUser)) {
-//            throw new AppException(ErrorCode.SELF_ALARM, ErrorCode.SELF_ALARM.getMessage());
-//        }
-
-        alarmRepository.save(request.toEntity(post, fromUser, targetUser));
+        if (fromUser != targetUser) {
+            alarmRepository.save(request.toEntity(post, fromUser, targetUser));
+        }
     }
 }
