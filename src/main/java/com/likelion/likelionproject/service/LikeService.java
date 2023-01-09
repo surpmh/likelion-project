@@ -28,7 +28,7 @@ public class LikeService {
      * 좋아요 개수
      */
     public Long count(Long postsId) {
-        return likeRepository.countByPostId(postsId);
+        return likeRepository.countByPostIdAndCancel(postsId, false);
     }
 
     /**
