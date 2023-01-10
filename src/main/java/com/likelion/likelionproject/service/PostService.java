@@ -23,9 +23,6 @@ import java.util.Objects;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
-    private final LikeRepository likeRepository;
-    private final AlarmRepository alarmRepository;
 
     /**
      * 권한 확인
@@ -117,9 +114,6 @@ public class PostService {
     public void delete(Long id, String userName) {
         Post post = checkPermission(id, userName);
 
-        alarmRepository.deleteAllByPost(post);
-        likeRepository.deleteAllByPost(post);
-        commentRepository.deleteAllByPost(post);
         postRepository.delete(post);
     }
 }
