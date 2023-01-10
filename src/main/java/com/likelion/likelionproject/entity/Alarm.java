@@ -31,8 +31,4 @@ public class Alarm extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
 }
