@@ -2,6 +2,7 @@ package com.likelion.likelionproject.controller;
 
 import com.likelion.likelionproject.dto.Response;
 import com.likelion.likelionproject.dto.alarm.AlarmDetailResponse;
+import com.likelion.likelionproject.dto.alarm.AlarmResponse;
 import com.likelion.likelionproject.service.AlarmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +26,8 @@ public class AlarmController {
      * 알람 리스트
      */
     @GetMapping("")
-    public Response<Page<AlarmDetailResponse>> alarm(@PageableDefault(size = 20, direction = Sort.Direction.DESC) Pageable pageable, Authentication authentication) {
-        Page<AlarmDetailResponse> alarmDetailResponses = alarmService.list(authentication.getName(), pageable);
-        return Response.success(alarmDetailResponses);
+    public Response<AlarmResponse> alarm(@PageableDefault(size = 20, direction = Sort.Direction.DESC) Pageable pageable, Authentication authentication) {
+        AlarmResponse alarmResponse = alarmService.list(authentication.getName(), pageable);
+        return Response.success(alarmResponse);
     }
 }

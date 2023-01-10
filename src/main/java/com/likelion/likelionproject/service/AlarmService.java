@@ -2,6 +2,7 @@ package com.likelion.likelionproject.service;
 
 import com.likelion.likelionproject.dto.alarm.AlarmDetailResponse;
 import com.likelion.likelionproject.dto.alarm.AlarmRequest;
+import com.likelion.likelionproject.dto.alarm.AlarmResponse;
 import com.likelion.likelionproject.entity.Post;
 import com.likelion.likelionproject.entity.User;
 import com.likelion.likelionproject.enums.ErrorCode;
@@ -26,13 +27,17 @@ public class AlarmService {
     /**
      * 알람 리스트
      */
-    public Page<AlarmDetailResponse> list(String userName, Pageable pageable) {
+    public AlarmResponse list(String userName, Pageable pageable) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, ErrorCode.USERNAME_NOT_FOUND.getMessage()));
 
         Page<AlarmDetailResponse> alarmDetailResponses = alarmRepository.findByUserId(user.getId(), pageable).map(AlarmDetailResponse::fromEntity);
 
-        return alarmDetailResponses;
+        AlarmResponse alarmResponse = AlarmResponse.builder()
+                .content(alarmDetailResponses.getContent())
+                .build();
+
+        return alarmResponse;
     }
 
     /**
