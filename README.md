@@ -1,6 +1,6 @@
 # 🦁 MutsaSNS 🦁
 
-👉🏻 http://ec2-15-164-98-83.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/
+👉🏻 http://ec2-3-35-27-1.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/
 
 ## 개발환경
 
@@ -15,7 +15,7 @@
 - 데이터베이스 : MySql 8.0
 - 라이브러리 : SpringBoot Web, MySQL, Spring Data JPA, Lombok, Spring Security
 
-## 서비스 소개
+## 📎 서비스 소개
 
 ---
 
@@ -23,67 +23,56 @@
 
 - 모든 회원은 회원가입을 통해 회원이 됩니다.
 - 로그인을 하지 않으면 SNS 기능 중 피드를 보는 기능만 가능합니다.
-
-[//]: # (- 로그인한 회원은 글쓰기, 수정, 댓글, 좋아요, 알림 기능이 가능합니다.)
+- 로그인한 회원은 글쓰기, 수정, 댓글, 좋아요, 알림 기능이 가능합니다.
 
 ### 2️⃣ 글쓰기
 
 - 포스트를 쓰려면 회원가입 후 로그인을 해야 합니다.
-- 포스트의 길이는 총 300자 이상을 넘을 수 없습니다.
 - 포스트의 한 페이지는 20개씩 보이고 총 몇 개의 페이지인지 표시가 됩니다.
 - 로그인 하지 않아도 글 목록을 조회 할 수 있습니다.
 - 수정 기능은 글을 쓴 회원만이 권한을 가집니다.
 - 포스트의 삭제 기능은 글을 쓴 회원만이 권한을 가집니다.
 
-[//]: # (### 3️⃣ 피드)
+### 3️⃣ 피드
 
-[//]: # ()
-[//]: # (- 로그인 한 회원은 자신이 작성한 글 목록을 볼 수 있습니다.)
+- 로그인 한 회원은 자신이 작성한 글 목록을 볼 수 있습니다.
 
-[//]: # ()
-[//]: # (### 4️⃣ 댓글)
+### 4️⃣ 댓글
 
-[//]: # ()
-[//]: # (- 댓글은 회원만이 권한을 가집니다.)
+- 댓글은 회원만이 권한을 가집니다.
+- 회원은 다수의 댓글을 달 수 있습니다.
 
-[//]: # (- 글의 길이는 총 100자 이상을 넘을 수 없습니다.)
+### 5️⃣ 좋아요
 
-[//]: # (- 회원은 다수의 댓글을 달 수 있습니다.)
+- 좋아요는 회원만 권한을 가집니다.
+- 좋아요 기능은 취소가 가능합니다.
 
-[//]: # ()
-[//]: # (### 5️⃣ 좋아요)
+### 6️⃣ 알림
 
-[//]: # ()
-[//]: # (- 좋아요는 회원만 권한을 가집니다.)
+- 알림은 회원이 자신이 쓴 글에 대해 다른회원의 댓글을 올리거나 좋아요시 받는 기능입니다.
+- 알림 목록에서 자신이 쓴 글에 달린 댓글과 좋아요를 확인할 수 있습니다.
 
-[//]: # (- 좋아요 기능은 취소가 가능합니다.)
+## 📎 ERD
 
-[//]: # ()
-[//]: # (### 6️⃣ 알림)
+[//]: # (![img.png]&#40;img.png&#41;)
+<img src="img.png" width="70%" height="70%">
 
-[//]: # ()
-[//]: # (- 알림은 회원이 자신이 쓴 글에 대해 다른회원의 댓글을 올리거나 좋아요시 받는 기능입니다.)
+## 📎 Endpoint
 
-[//]: # (- 알림 목록에서 자신이 쓴 글에 달린 댓글과 좋아요를 확인할 수 있습니다.)
-
-## 1주차
-### 미션 요구사항 분석 & 체크리스트
-
----
-
-- [x] 회원가입
-- [x] Swagger
-- [x] AWS EC2에 Docker 배포
-- [x] Gitlab CI & Crontab CD
-- [x] 로그인
-- [ ] 포스트 작성, 수정, 삭제, 리스트
-
-### 1주차 미션 요약
-
----
-
-**[접근 방법]**
-
-- 
-
-**[특이사항]**
+|  auth   | Method |                      URL                      | Request Body                                                      | Success Response                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Error Response                                                                                                                                                                                                                                                   |
+|:-------:|:------:|:---------------------------------------------:|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  회원가입   |  POST  |              /api/v1/users/join               | {<br>　"userName": "user",<br>　"password": "password"<br>}         | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"userName": "user",<br>　　"password": "$2a$10$qX4yDGJOR1CccN7OqMXyYejtTx7uuggh0CVS4BouOl6oMtViwZlZ."<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | {<br> "resultCode": "ERROR",<br> "result":{<br>　 "errorCode": "DUPLICATED_USER_NAME",<br>　 "message": "UserName이 중복됩니다."<br>　}<br>}                                                                                                                              |
+|   로그인   |  POST  |              /api/v1/users/login              | {<br>　"userName": "user",<br>　"password": "password"<br>}         | {<br>"　resultCode": "SUCCESS",<br>　"result":{<br>　　"jwt": "token"<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | {<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "USERNAME_NOT_FOUND",<br>　　"message": "유저가 존재하지 않습니다."<br>　}<br>}<hr>{<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "INVALID_PASSWORD",<br>　　"message": "패스워드가 잘못되었습니다."<br>　}<br>} |
+| 포스트 리스트 |  GET   |                                               |                                                                   | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"content":[<br>　　　{<br>　　　　"id": 1,<br>　　　　"title": "title",<br>　　　　"body": "body",<br>　　　　"userName": "user",<br>　　　　"createdAt": "2023-01-09T10:24:21.597156",<br>　　　　"lastModifiedAt": "2023-01-09T10:24:21.597156"<br>　　　}<br>　　],<br>　　"pageable": "INSTANCE",<br>　　"last": false,<br>　　"totalElements": 9,<br>　　"totalPages": 1,<br>　　"size": 20,<br>　　"number": 0,<br>　　"sort":{<br>　　　"empty": true,<br>　　　"sorted": false,<br>　　　"unsorted": true<br>　　},<br>　　"first": true,<br>　　"numberOfElements": 1,<br>　　"empty": false<br>　}<br>}                                                          |                                                                                                                                                                                                                                                                  |
+| 포스트 상세  |  GET   |            /api/v1/posts/{postsId}            |                                                                   | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"id": 1,<br>　　"title": "title",<br>　　"body": "body",<br>　　"userName": "user",<br>　　"createdAt": "2023-01-09T10:24:21.597156",<br>　　"lastModifiedAt": "2023-01-09T10:24:21.597156"<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                                  |
+| 포스트 등록  |  POST  |                 /api/v1/posts                 | {<br>　"title": "title",<br>　"body": "body"<br>}                   | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"message": "포스트 등록 완료",<br>　　"postId": 1<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |                                                                                                                                                                                                                                                                  |
+| 포스트 수정  |  PUT   |            /api/v1/posts/{postsId}            | {<br>　"title": "modified title",<br>　"body": "modified body"<br>} | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"message": "포스트 수정 완료",<br>　　"postId": 1<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | {<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "INVALID_PERMISSION",<br>　　"message": "사용자가 권한이 없습니다."<br>　}<br>}                                                                                                                                  |
+| 포스트 삭제  | DELETE |            /api/v1/posts/{postsId}            |                                                                   | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"message": "포스트 삭제 완료",<br>　　"postId": 1<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | {<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "INVALID_PERMISSION",<br>　　"message": "사용자가 권한이 없습니다."<br>　}<br>}<hr>{<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "POST_NOT_FOUND",<br>　　"message": "해당 포스트가 없습니다."<br>　}<br>}    |
+|  마이 피드  |  GET   |               /api/v1/posts/my                |                                                                   | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"content":[<br>　　　{<br>　　　"id": 1,<br>　　　"title": "title",<br>　　　"body": "body",<br>　　　"userName": "user",<br>　　　"createdAt": "2023-01-09T10:24:21.597156",<br>　　　"lastModifiedAt": "2023-01-09T10:24:21.597156"<br>　　　}<br>　　],<br>　　"pageable":{"sort":{"empty": true, "sorted": false, "unsorted": true }, "offset": 0,…},<br>　　"last": true,<br>　　"totalPages": 1,<br>　　"totalElements": 1,<br>　　"size": 20,<br>　　"number": 0,<br>　　"sort":{<br>　　　"empty": true,<br>　　　"sorted": false,<br>　　　"unsorted": true<br>　　},<br>　　"first": true,<br>　　"numberOfElements": 1,<br>　　"empty": false<br>　}<br>} |                                                                                                                                                                                                                                                                  |
+| 댓글 리스트  |  GET   |       /api/v1/posts/{postsId}/comments        |                                                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                                  |
+|  댓글 작성  |  POST  |       /api/v1/posts/{postsId}/comments        | {<br>　  "comment": "comment"<br>}                                 | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"createdAt": "2023-01-09T10:24:21.597156",<br>　　"lastModifiedAt": "2023-01-09T10:24:21.597156",<br>　　"id": 10,<br>　　"comment": "댓글",<br>　　"userName": "user",<br>　　"postId": 1<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                                  |
+|  댓글 수정  |  PUT   | /api/v1/posts/{postsId}/comments/{commentsId} | {<br>　  "comment": "modified comment"<br>}                        | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"createdAt": "2023-01-09T10:24:21.597156",<br>　　"lastModifiedAt": "2023-01-09T10:24:21.597156",<br>　　"id": 2,<br>　　"comment": "modified comment",<br>　　"userName": "user",<br>　　"postId": 1<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                     | {<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "POST_NOT_FOUND",<br>　　"message": "해당 포스트가 없습니다."<br>　}<br>}                                                                                                                                       |
+|  댓글 삭제  | DELETE | /api/v1/posts/{postsId}/comments/{commentsId} |                                                                   | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"message": "댓글 삭제 완료",<br>　　"id": 11<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | {<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "INVALID_PERMISSION",<br>　　"message": "사용자가 권한이 없습니다."<br>　}<br>}<hr>{<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "POST_NOT_FOUND",<br>　　"message": "해당 포스트가 없습니다."<br>　}<br>}    |
+| 좋아요 개수  |  GET   |         /api/v1/posts/{postsId}/likes         |                                                                   | {<br>　"resultCode": "SUCCESS",<br>　"result": 1<br>}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                                                                                                                                                                  |
+| 좋아요 누르기 |  POST  |         /api/v1/posts/{postsId}/likes         |                                                                   | {<br>　"resultCode":"SUCCESS",<br>　"result": "좋아요를 눌렀습니다."}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | {<br>　"resultCode": "ERROR",<br>　"result":{<br>　　"errorCode": "POST_NOT_FOUND",<br>　　"message": "해당 포스트가 없습니다."<br>　}<br>}                                                                                                                                       |
+| 알람 리스트  |  GET   |                /api/v1/alarms                 |                                                                   | {<br>　"resultCode": "SUCCESS",<br>　"result":{<br>　　"content":[<br>　　　{<br>　　　　"id": 1,<br>　　　　"alarmType": "NEW_LIKE_ON_POST",<br>　　　　"fromUserId": 2,<br>　　　　"targetId": 1,<br>　　　　"text": "new like!",<br>　　　　"createdAt": "2023-01-9T15:24:43.342071"<br>　　　}<br>　　]<br>　}<br>}                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                  |
