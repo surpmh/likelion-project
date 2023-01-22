@@ -1,7 +1,3 @@
-# 🦁 MutsaSNS 🦁
-
-👉🏻 http://ec2-3-35-27-1.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/
-
 ## 개발환경
 
 ---
