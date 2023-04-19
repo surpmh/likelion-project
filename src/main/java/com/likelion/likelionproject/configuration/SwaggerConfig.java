@@ -30,7 +30,7 @@ public class SwaggerConfig {
 
     public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("MutSa SNS API 명세서")
+                .title("SNS API 명세서")
                 .version("0.1")
                 .build();
     }
