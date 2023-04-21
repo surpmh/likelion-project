@@ -2,14 +2,14 @@
 
 ---
 
+개발 환경
 - 에디터 : Intellij Ultimate
-- 개발 툴 : SpringBoot 2.7.5
-- 자바 : JAVA 11
+- 프레임워크: SpringBoot, Spring Data JPA
+- 언어 : JAVA 11
 - 빌드 : Gradle 6.8
 - 서버 : AWS EC2
 - 배포 : Docker
 - 데이터베이스 : MySql 8.0
-- 라이브러리 : SpringBoot Web, MySQL, Spring Data JPA, Lombok, Spring Security
 
 ## 📎 서비스 소개
 
